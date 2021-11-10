@@ -19,11 +19,13 @@ export const Products = ({ cat, filters, sort }) => {
     useEffect(() => {
         const getProducts = async () => {
             try {
-                const res = await axios.get()
-            } catch(err) {
+                const res = await axios.get("http://localhost:3000/api/products");
+                console.log(res);
+            } catch (err) {
                 
             }
-        }
+        };
+        getProducts()
     },[cat])
     return (
         <Container>
