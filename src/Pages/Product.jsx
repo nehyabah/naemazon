@@ -1,14 +1,30 @@
 import { Add, Remove } from "@material-ui/icons"
+import { useLocation } from "react-router-dom"
 import styled from "styled-components"
 import Announcement from "../components/Announcement"
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
 import { Newsletter } from "../components/Newsletter"
 import { mobile } from "../responsive"
+import { useState } from "react"
+import { useEffect } from "react"
 
 
 
 const Product = () => {
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = axios.
+      }catch{}
+    }
+  },[id])
+
+
     return (
       <Container>
         <Navbar />
@@ -156,4 +172,4 @@ const Button = styled.button`
   }
 `;
 
-export default Product
+export default Product;

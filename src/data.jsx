@@ -53,9 +53,15 @@ export const categories = [
   {
     id: 4,
     img: "https://i.ibb.co/YBXLxpY/pexels-anna-shvets-4611700.png",
-    title: "SUITS",
-    cat:'suits'
+    title: "JACKETS",
+    cat:'jackets'
   },
+  // {
+  //   id: 4,
+  //   img: "https://i.ibb.co/YBXLxpY/pexels-anna-shvets-4611700.png",
+  //   title: "JUMPERS",
+  //   cat:'Jumper'
+  // },
 ];
 
 export const popularProducts = [
