@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const quantity = useSelector(state => state.cart.quantity)
-  console.log(quantity);
+  
   
   
   return (
@@ -24,13 +24,15 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>NAEMAZoN.</Logo>
+          
+            <Logo>NAEMAZoN.</Logo>
+          
         </Center>
         <Right>
           <MenuItem>REGISTER</MenuItem>
           <MenuItem>SIGN IN</MenuItem>
 
-          <Link to='/cart'>
+          <Link to="/cart">
             <MenuItem>
               <Badge badgeContent={quantity} color="primary">
                 <ShoppingCartOutlined color="action" />
@@ -92,6 +94,8 @@ const Center = styled.div`
 const Logo = styled.h1`
   font-weight: bold;
   text-align: center;
+  text-decoration: none;
+
   ${mobile({ fontSize: "17px", marginLeft: "5px" })}
 `;
 
