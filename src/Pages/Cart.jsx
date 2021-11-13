@@ -2,13 +2,95 @@ import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import boots from "../assets/boots.jpeg";
+
 import { Add, Remove } from "@material-ui/icons";
 import { mobile } from "../responsive";
+import { useSelector } from "react-redux";
 
+
+const Cart = () => {
+  const cart = useSelector((state) => state.cart);
+  return (
+    <Container>
+      <Navbar />
+      <Announcement />
+      <Wrapper>
+        <Title>YOUR BAG</Title>
+        <Top>
+          <TopButton>CONTINUE SHOPPING</TopButton>
+          <TopTexts>
+            <TopText>Shopping Bag (2)</TopText>
+            <TopText>Your Wishlist (0)</TopText>
+          </TopTexts>
+          <TopButton type="filled">CHECKOUT NOW</TopButton>
+        </Top>
+        <Bottom>
+          <Info>
+            {cart.products.map((product) => (
+              <Product>
+                <ProductDetail>
+                  <Image src={product.img} />
+                  <Details>
+                    <ProductName>
+                      <b>Product:</b> {product.title}
+                    </ProductName>
+                    <ProductId>
+                      <b>ID:</b> {product._id}
+                    </ProductId>
+                    <ProductColor color={product.color} />
+                    <ProductSize>
+                      <b>Size:</b> {product.size}
+                    </ProductSize>
+                  </Details>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <Remove />
+                    <ProductAmount>{product.quantity}</ProductAmount>
+
+                    <Add />
+                  </ProductAmountContainer>
+                  <ProductPrice>
+                    £{product.price * product.quantity}
+                  </ProductPrice>
+                </PriceDetail>
+              </Product>
+            ))}
+            <Hr />
+          </Info>
+          <Summary>
+            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+            <SummaryItem>
+              <SummaryItemText>Subtotal</SummaryItemText>
+              <SummaryItemPrice>£{cart.total}</SummaryItemPrice>
+            </SummaryItem>
+            <SummaryItem>
+              <SummaryItemText>Estimated Shipping</SummaryItemText>
+              <SummaryItemPrice>£5.99</SummaryItemPrice>
+            </SummaryItem>
+
+            <SummaryItem>
+              <SummaryItemText>Shipping Discount</SummaryItemText>
+              <SummaryItemText>-£5.99</SummaryItemText>
+            </SummaryItem>
+
+            <SummaryItem type="total">
+              <SummaryItemText>Total</SummaryItemText>
+              <SummaryItemText>£{cart.total}</SummaryItemText>
+            </SummaryItem>
+
+            <Button>CHECKOUT NOW</Button>
+          </Summary>
+        </Bottom>
+      </Wrapper>
+      <Footer />
+    </Container>
+  );
+};
+
+export default Cart;
 
 const Container = styled.div``;
-
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -30,11 +112,10 @@ font-weight: 600;
 cursor: pointer;
 border: ${(props) => props.type === "filled" && "none"};
 background-color: ${(props) =>
-  props.type === "filled" ? "black" : "transparent"};
+    props.type === "filled" ? "black" : "transparent"};
 color: ${(props) => props.type === "filled" && "white"}
 };
 `;
-
 
 const TopTexts = styled.div`
   ${mobile({ display: "none" })}
@@ -56,6 +137,7 @@ const Info = styled.div`
 const Product = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 20px;
   ${mobile({ flexDirection: "column" })}
 `;
 const ProductDetail = styled.div`
@@ -89,10 +171,10 @@ const PriceDetail = styled.div`
   justify-content: center;
 `;
 const ProductAmountContainer = styled.div`
-display: flex;
-align-items: center;
-margin-bottom: 20px;
-`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`;
 const ProductAmount = styled.div`
   font-size: 24px;
   margin: 5px;
@@ -105,10 +187,10 @@ const ProductPrice = styled.div`
   ${mobile({ marginBottom: "20px" })}
 `;
 const Hr = styled.hr`
-background-color: #eee;
-border: none;
-height: 1px;
-`
+  background-color: #eee;
+  border: none;
+  height: 1px;
+`;
 
 const Summary = styled.div`
   flex: 1;
@@ -120,19 +202,15 @@ const Summary = styled.div`
 const SummaryTitle = styled.h1`
   font-weight: 200;
 `;
-const SummaryItem= styled.div`
+const SummaryItem = styled.div`
   margin: 30px 0px;
   display: flex;
   justify-content: space-between;
-  font-weight: ${props=>props.type === 'total' && '500'};
-  font-size: ${props=>props.type === 'total' && '24px'};
+  font-weight: ${(props) => props.type === "total" && "500"};
+  font-size: ${(props) => props.type === "total" && "24px"};
 `;
-const SummaryItemText = styled.span`
-  
-`;
-const SummaryItemPrice = styled.span`
-  
-`;
+const SummaryItemText = styled.span``;
+const SummaryItemPrice = styled.span``;
 const Button = styled.button`
   width: 100%;
   padding: 10px;
@@ -140,105 +218,4 @@ const Button = styled.button`
   color: white;
   font-weight: 600;
   cursor: pointer;
-
 `;
-
-const Cart = () => {
-  return (
-    <Container>
-      <Navbar />
-      <Announcement />
-      <Wrapper>
-        <Title>YOUR BAG</Title>
-        <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
-          <TopTexts>
-            <TopText>Shopping Bag (2)</TopText>
-            <TopText>Your Wishlist (0)</TopText>
-          </TopTexts>
-          <TopButton type="filled">CHECKOUT NOW</TopButton>
-        </Top>
-        <Bottom>
-          <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://i.ibb.co/m0VpTMw/balmoral-boots-brown-the-dublin.jpg" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> DUBLINER BOOTS
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 83479203
-                  </ProductId>
-                  <ProductColor color="brown" />
-                  <ProductSize>
-                    <b>Size:</b> 40
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Remove />
-                  <ProductAmount>2</ProductAmount>
-                  <Add />
-                </ProductAmountContainer>
-
-                <ProductPrice>£250</ProductPrice>
-              </PriceDetail>
-            </Product>
-
-            <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://i.ibb.co/J2WS8Vb/shoe-cleaning-basic-kit-leather-famaco.jpg" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> SHOE CLEANING KIT
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 78654
-                  </ProductId>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Remove />
-                  <ProductAmount>2</ProductAmount>
-                  <Add />
-                </ProductAmountContainer>
-
-                <ProductPrice>£56.55</ProductPrice>
-              </PriceDetail>
-            </Product>
-          </Info>
-          <Summary>
-            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-            <SummaryItem>
-              <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>£306.55</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>£5.99</SummaryItemPrice>
-            </SummaryItem>
-
-            <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemText>-£5.99</SummaryItemText>
-            </SummaryItem>
-
-            <SummaryItem type="total">
-              <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemText>£306</SummaryItemText>
-            </SummaryItem>
-
-            <Button>CHECKOUT NOW</Button>
-          </Summary>
-        </Bottom>
-      </Wrapper>
-      <Footer />
-    </Container>
-  );
-};
-
-export default Cart;

@@ -8,6 +8,9 @@ import { Newsletter } from "../components/Newsletter"
 import { mobile } from "../responsive"
 import { useState } from "react"
 import { useEffect } from "react"
+import { publicRequest } from "../requestMethods"
+import { useDispatch } from "react-redux"
+import {addProduct} from '../Redux/cartRedux'
 
 
 
@@ -15,61 +18,72 @@ const Product = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState('');
+  const [size, setSize] = useState('');
+  const dispatch = useDispatch()
+
 
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const res = axios.
+        const res = await publicRequest.get("/products/find/" + id)
+        setProduct(res.data);
       }catch{}
     }
+    getProduct()
   },[id])
 
+  const handleQuantity = (type) => {
+    if (type === 'desc') {
+      quantity > 1 && setQuantity(quantity - 1)
+    } else {
+      setQuantity(quantity + 1)
+    }
+  };
 
+  const handleClick = () => {
+    // update cart
+    dispatch(addProduct({ product, quantity, price:product.price }));
+    
+  };
     return (
       <Container>
         <Navbar />
         <Announcement />
         <Wrapper>
           <ImgContainer>
-            <Image src="https://i.ibb.co/QYcvvqq/pexels-ron-lach-9594679.jpg" />
+            <Image src={product.img} />
           </ImgContainer>
           <InfoContainer>
-            <Title>Comfy Hoody</Title>
-            <Desc>
-              Midweight 7.5 oz (250gsm) French terry, ring-spun for softness.
-              Solid colors are 80% ring-spun cotton, 20% polyester. Heather
-              colors are 60% ring-spun cotton, 40% polyester. Custom printed
-              with your chosen artwork, when you order.
-            </Desc>
-                    <Price> £45</Price>
-                    <FilterContainer>
-                        <Filter>
-                            <FilterTitle>Color</FilterTitle>
-                            <FilterColor color='gray'/>
-                            <FilterColor color='brown'/>
-                            <FilterColor color='green'/>
-                        </Filter>
-                        <Filter>
-                            <FilterTitle>Size</FilterTitle>
-                            <FilterSize>
-                                <FilterSizeOption>XS</FilterSizeOption>
-                                <FilterSizeOption>S</FilterSizeOption>
-                                <FilterSizeOption>M</FilterSizeOption>
-                                <FilterSizeOption>L</FilterSizeOption>
-                                <FilterSizeOption>XL</FilterSizeOption>
-                                <FilterSizeOption>XXL</FilterSizeOption>
-                            </FilterSize>
-                        </Filter>
-                    </FilterContainer>
+            <Title>{product.title}</Title>
+            <Desc>{product.desc}</Desc>
+            <Price> £{product.price}</Price>
+            <FilterContainer>
+              <Filter>
+                <FilterTitle>Color</FilterTitle>
+                {product.color?.map((c) => (
+                  <FilterColor color={c} key={c} onClick={ ()=>setColor(c)}/>
+                ))}
+              </Filter>
+              <Filter>
+                <FilterTitle>Size</FilterTitle>
+                <FilterSize onChange={ (e)=>setSize(e.target.value)}>
+                  {product.size?.map((s) => (
+                    <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                  ))}
+                </FilterSize>
+              </Filter>
+            </FilterContainer>
 
-                    <AddContainer>
-                        <AmountContainer>
-                            <Remove />
-                            <Amount>1</Amount>
-                            <Add/>
-                        </AmountContainer>
-                        <Button>ADD TO CART</Button>
-                    </AddContainer>
+            <AddContainer>
+              <AmountContainer>
+                <Remove onClick={() => handleQuantity("desc")} />
+                <Amount>{quantity}</Amount>
+                <Add onClick={() => handleQuantity("inc")} />
+              </AmountContainer>
+              <Button onClick={handleClick}>ADD TO CART</Button>
+            </AddContainer>
           </InfoContainer>
         </Wrapper>
         <Newsletter />
