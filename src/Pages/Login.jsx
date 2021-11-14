@@ -1,17 +1,37 @@
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import bg from "../assets/bgg3.jpg";
+import { login } from "../Redux/apiCalls";
 import { mobile } from "../responsive";
 
 
 const Login = () => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const dispatch = useDispatch();
+  const {isFetching, error} = useSelector((state)=>state.user)
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    login(dispatch, { username, password });
+  }
   return (
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
         <Form>
-          <Input placeholder="username" />
-          <Input placeholder="Password" />
-          <Button>LOGIN</Button>
+          <Input
+            placeholder="username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Input
+            placeholder="Password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button onClick={handleClick} disabled={isFetching}>LOGIN</Button>
+          {error && <Error>Wrong credentials. Try again.</Error>}
           <Link>FORGOT PASSWORD?</Link>
           <Link>CREATE NEW ACCOUNT</Link>
         </Form>
@@ -67,6 +87,10 @@ const Button = styled.button`
   background-color: rgba(246, 238, 226, 0.2);
   cursor: pointer;
   margin-bottom: 10px;
+  &:disabled{
+    color:green;
+    cursor: not-allowed;
+  }
   &:hover {
     background-color: white;
   }
@@ -79,4 +103,7 @@ const Link = styled.a`
   cursor: pointer;
 `;
 
+const Error = styled.span`
+color: red;
+`
 export default Login;

@@ -29,8 +29,8 @@ const Navbar = () => {
           
         </Center>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
+          {/* <MenuItem>REGISTER</MenuItem> */}
+          <MenuItem>SIGN OUT</MenuItem>
 
           <Link to="/cart">
             <MenuItem>
@@ -65,7 +65,7 @@ const Wrapper = styled.div`
   ${mobile({ padding: "10px 0px" })}
 `;
 const Left = styled.div`
-  flex: 1;
+  flex: 2;
   display: flex;
   align-items: center;
 `;

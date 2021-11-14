@@ -30,31 +30,30 @@ export const sliderItems = [
 ];
 
 export const categories = [
-  
   {
     id: 1,
     img: "https://i.ibb.co/dgdrC0h/pexels-olia-danilevich-4723203.png",
     title: "TOPS",
-    cat:'tops'
+    cat: "tops",
   },
 
   {
     id: 2,
-    img: "https://i.ibb.co/X5LhX9h/pexels-kabita-darlami-5788986.png",
+    img: "https://i.ibb.co/yW369Hv/pexels-kira-schwarz-6931321.jpg",
     title: "SHOES",
-    cat:'shoes'
+    cat: "shoes",
   },
   {
     id: 3,
-    img: "https://i.ibb.co/WtVYq9z/pexels-jeys-tubianosa-3538028.png",
+    img: "https://i.ibb.co/hY9tSjh/pexels-godisable-jacob-818992.jpg",
     title: "TROUSERS",
-    cat:"trousers"
+    cat: "trousers",
   },
   {
     id: 4,
-    img: "https://i.ibb.co/YBXLxpY/pexels-anna-shvets-4611700.png",
+    img: "https://i.ibb.co/HNwyXkp/pexels-olanma-etigweuwa-3856257.jpg",
     title: "JACKETS",
-    cat:'jackets'
+    cat: "jackets",
   },
   // {
   //   id: 4,
